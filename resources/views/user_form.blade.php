@@ -10,7 +10,12 @@
 </head>
 <body>
 <div class="container">
-    <div class="col-md-8 col-lg-8">
+    <div class="col-md-8 col-lg-8 col-xs-8">
+        @if(Session::has("success_done"))
+            <div class="alert alert-primary" role="alert">
+                {{ Session::get("success_done") }}
+            </div>
+        @endif
         <form action="{{ route("store.user") }}" method="POST">
             {{ csrf_field() }}
             <div class="form-group">

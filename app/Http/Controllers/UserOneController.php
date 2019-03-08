@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Session;
 
 class UserOneController extends Controller
 {
@@ -55,7 +56,7 @@ class UserOneController extends Controller
             ."gender: ".$gender."\n"
             ."Check: ".$check;
         // store the data into database
-
+       Session::flash("success_done","Successfully Data Inserted");
        return redirect()->back();
     }
 
