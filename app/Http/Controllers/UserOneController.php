@@ -44,6 +44,15 @@ class UserOneController extends Controller
      */
     public function store(Request $request)
     {
+        // validation
+        $this->validate($request,[
+            "full_name"=>"required",
+            "email"=>"required|email",
+            "password"=>"required|min:6",
+            "gender"=>"required",
+            "check_me"=>"required"
+        ]);
+
         $name = $request->full_name; // $_POST['full_name']
         $email = $request->email;
         $pass = $request->password;
@@ -56,6 +65,7 @@ class UserOneController extends Controller
             ."gender: ".$gender."\n"
             ."Check: ".$check;
         // store the data into database
+        //dd($message) // for debugging
        Session::flash("success_done","Successfully Data Inserted");
        return redirect()->back();
     }

@@ -11,6 +11,15 @@
 <body>
 <div class="container">
     <div class="col-md-8 col-lg-8 col-xs-8">
+        @if(count($errors)>0)
+            <div class="alert alert-danger" role="alert">
+                <ul>
+                    @foreach($errors->all() as $err)
+                        <li>{{ $err }}</li>
+                    @endforeach
+                </ul>
+            </div>
+        @endif
         @if(Session::has("success_done"))
             <div class="alert alert-primary" role="alert">
                 {{ Session::get("success_done") }}
