@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\UserOne;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Session;
 
@@ -58,13 +59,20 @@ class UserOneController extends Controller
         $pass = $request->password;
         $gender = $request->gender;
         $check = $request->check_me;
-        $message =
-             "Name: ".$name."\n"
-            ."Email: ".$email ."\n"
-            ."Pass: ".$pass."\n"
-            ."gender: ".$gender."\n"
-            ."Check: ".$check;
+//        $message =
+//             "Name: ".$name."\n"
+//            ."Email: ".$email ."\n"
+//            ."Pass: ".$pass."\n"
+//            ."gender: ".$gender."\n"
+//            ."Check: ".$check;
         // store the data into database
+        $userOne = new UserOne();
+        $userOne->full_name = $name;
+        $userOne->email = $email;
+        $userOne->password = $pass;
+        $userOne->gender = $gender;
+        $userOne->check_me = $check;
+        $userOne->save();
         //dd($message) // for debugging
        Session::flash("success_done","Successfully Data Inserted");
        return redirect()->back();
@@ -113,5 +121,12 @@ class UserOneController extends Controller
     public function destroy($id)
     {
         //
+    }
+
+
+    public function showAll(){
+       $all_data = UserOne::all();
+       dd($all_data);
+       // send it to view
     }
 }

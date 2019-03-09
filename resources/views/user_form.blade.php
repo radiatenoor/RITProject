@@ -25,7 +25,7 @@
                 {{ Session::get("success_done") }}
             </div>
         @endif
-        <form action="{{ route("store.user") }}" method="POST">
+        <form action="{{ url("users/forms") }}" method="POST">
             {{ csrf_field() }}
             <div class="form-group">
                 <label for="exampleInputEmail1">Full Name</label>
