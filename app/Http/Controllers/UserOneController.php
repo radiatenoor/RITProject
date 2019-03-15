@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\UserOne;
+use App\UserPost;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Session;
 
@@ -129,5 +130,32 @@ class UserOneController extends Controller
        return view("user_list")
            ->with("all_data",$all_data);
        // send it to view
+    }
+
+    public function showPostForm(){
+        $users = UserOne::all();
+        return view("post_form")
+            ->with("users_data",$users);
+    }
+
+    public function storePostData(Request $request){
+        $this->validate($request,[
+            'user_id'=>'required',
+            'title'=>'required|min:6',
+            'description'=>'required|min:10'
+        ]);
+
+        // data store
+        $post = new UserPost();
+        $post->user_id = $request->user_id;
+        $post->title = $request->title;
+        $post->description = $request->description;
+        $post->save();
+
+        // message
+        Session::flash("success_done","Successfully Store Post Data");
+
+        // redirect to where
+        return redirect()->back();
     }
 }

@@ -18,3 +18,6 @@ Route::post("/users/forms",
     "UserOneController@store")->name("store.user");
 Route::get("/show/all/users",
     "UserOneController@showAll");
+Route::get("post/form","UserOneController@showPostForm");
+Route::post("store/post/data",
+    "UserOneController@storePostData")->name("store.post");
