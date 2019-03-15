@@ -126,7 +126,8 @@ class UserOneController extends Controller
 
     public function showAll(){
        $all_data = UserOne::all();
-       dd($all_data);
+       return view("user_list")
+           ->with("all_data",$all_data);
        // send it to view
     }
 }
