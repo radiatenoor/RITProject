@@ -158,4 +158,42 @@ class UserOneController extends Controller
         // redirect to where
         return redirect()->back();
     }
+
+    // get route param method
+    public function showEditUserForm($user_id){
+        // 1st way
+        $user_data = UserOne::find($user_id);
+        // 2nd way
+        $user_data2 = UserOne::where("id",$user_id)
+            ->first();
+        return view('user_edit_form')
+            ->with('user',$user_data);
+    }
+
+    public function updateUser(Request $request,$user_id){
+      // validation
+        $this->validate($request,[
+            "full_name"=>"required",
+            "email"=>"required|email",
+            "password"=>"required|min:6",
+            "gender"=>"required",
+            "check_me"=>"required"
+        ]);
+
+        // update data to database
+        $user = UserOne::find($user_id);
+        $user2 = UserOne::where('id',$user_id)->first();
+        $user->full_name = $request->full_name;
+        $user->email = $request->email;
+        $user->password = $request->password;
+        $user->gender = $request->gender;
+        $user->check_me = $request->check_me;
+        $user->save();
+
+        // message
+        Session::flash('success_done',"Successfully updated");
+
+        // return to where
+        return redirect()->back();
+    }
 }

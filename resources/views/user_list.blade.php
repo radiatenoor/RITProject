@@ -31,7 +31,7 @@
                   <td>{{ $data->gender }}</td>
                   <td>{{ $data->check_me }}</td>
                   <td>
-                      <button class="btn btn-info btn-xs">Edit</button>
+                      <a href="{{ route('edit.user',$data->id) }}" class="btn btn-info btn-xs">Edit</a>
                       <button class="btn btn-danger btn-xs">Delete</button>
                   </td>
               </tr>
