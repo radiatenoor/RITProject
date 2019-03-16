@@ -194,6 +194,17 @@ class UserOneController extends Controller
         Session::flash('success_done',"Successfully updated");
 
         // return to where
+        return redirect('show/all/users');
+    }
+
+    public function deleteUser($id){
+        // find the user to delete
+        $user = UserOne::find($id);
+        $user->delete(); // delete the user
+        // message
+        Session::flash('success_done',"Deleted Successfully");
+
+        // return to where
         return redirect()->back();
     }
 }

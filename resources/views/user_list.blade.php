@@ -11,6 +11,11 @@
 <body>
 <div class="container">
     <div class="col-md-8 col-lg-8 col-xs-8">
+        @if(Session::has("success_done"))
+            <div class="alert alert-primary" role="alert">
+                {{ Session::get("success_done") }}
+            </div>
+        @endif
         <table class="table table-bordered">
             <thead>
                <tr>
@@ -32,7 +37,7 @@
                   <td>{{ $data->check_me }}</td>
                   <td>
                       <a href="{{ route('edit.user',$data->id) }}" class="btn btn-info btn-xs">Edit</a>
-                      <button class="btn btn-danger btn-xs">Delete</button>
+                      <a href="{{ route('delete.user',$data->id) }}" class="btn btn-danger btn-xs">Delete</a>
                   </td>
               </tr>
               @endforeach
@@ -42,5 +47,8 @@
 </div>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/core.js"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+<script>
+
+</script>
 </body>
 </html>

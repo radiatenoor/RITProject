@@ -27,3 +27,6 @@ Route::get("/edit/user/form/{user_id}",
     "UserOneController@showEditUserForm")
     ->name('edit.user');
 Route::post("/update/user/{user_id}","UserOneController@updateUser")->name('update.user');
+
+// delete route
+Route::get("/delete/user/{id}","UserOneController@deleteUser")->name('delete.user');
