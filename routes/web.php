@@ -21,7 +21,7 @@ Route::get("/show/all/users",
 Route::get("post/form","UserOneController@showPostForm");
 Route::post("store/post/data",
     "UserOneController@storePostData")->name("store.post");
-
+Route::get("show/all/post","UserOneController@allPost");
 // url get parameter
 Route::get("/edit/user/form/{user_id}",
     "UserOneController@showEditUserForm")
@@ -30,3 +30,5 @@ Route::post("/update/user/{user_id}","UserOneController@updateUser")->name('upda
 
 // delete route
 Route::get("/delete/user/{id}","UserOneController@deleteUser")->name('delete.user');
+
+Route::get("show/all/orders","UserOneController@allOrders");

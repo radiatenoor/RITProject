@@ -2,9 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Customer;
+use App\Order;
 use App\UserOne;
 use App\UserPost;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Session;
 
 class UserOneController extends Controller
@@ -67,13 +70,23 @@ class UserOneController extends Controller
 //            ."gender: ".$gender."\n"
 //            ."Check: ".$check;
         // store the data into database
-        $userOne = new UserOne();
-        $userOne->full_name = $name;
-        $userOne->email = $email;
-        $userOne->password = $pass;
-        $userOne->gender = $gender;
-        $userOne->check_me = $check;
-        $userOne->save();
+//        $userOne = new UserOne();
+//        $userOne->full_name = $name;
+//        $userOne->email = $email;
+//        $userOne->password = $pass;
+//        $userOne->gender = $gender;
+//        $userOne->check_me = $check;
+//        $userOne->save();
+        // alternative way DB query builder to store data to database
+        DB::table('user_one')->insert([
+            'full_name'=>$name,
+            'email'=>$email,
+            'password'=>$pass,
+            'gender'=>$gender,
+            'check_me'=>$check,
+            'created_at'=>date('Y-m-d h:m:s'),
+            'updated_at'=>date('Y-m-d h:m:s'),
+        ]);
         //dd($message) // for debugging
        Session::flash("success_done","Successfully Data Inserted");
        return redirect()->back();
@@ -126,7 +139,10 @@ class UserOneController extends Controller
 
 
     public function showAll(){
-       $all_data = UserOne::all();
+        // data get by eloquent model
+       //$all_data = UserOne::all();
+       // data get by DB query builder
+        $all_data = DB::table('user_one')->get();
        return view("user_list")
            ->with("all_data",$all_data);
        // send it to view
@@ -161,11 +177,15 @@ class UserOneController extends Controller
 
     // get route param method
     public function showEditUserForm($user_id){
+        // both way done by eloquent model
         // 1st way
-        $user_data = UserOne::find($user_id);
+        //$user_data = UserOne::find($user_id);
         // 2nd way
-        $user_data2 = UserOne::where("id",$user_id)
-            ->first();
+        //$user_data2 = UserOne::where("id",$user_id)->first();
+        // find the similar query using DB query builder
+        $user_data = DB::table('user_one')->find($user_id);
+        //$user_data2 = DB::table('user_one')->where("id",$user_id)->first();
+
         return view('user_edit_form')
             ->with('user',$user_data);
     }
@@ -181,15 +201,26 @@ class UserOneController extends Controller
         ]);
 
         // update data to database
-        $user = UserOne::find($user_id);
-        $user2 = UserOne::where('id',$user_id)->first();
-        $user->full_name = $request->full_name;
-        $user->email = $request->email;
-        $user->password = $request->password;
-        $user->gender = $request->gender;
-        $user->check_me = $request->check_me;
-        $user->save();
-
+//        $user = UserOne::find($user_id);
+//        $user2 = UserOne::where('id',$user_id)->first();
+//        $user->full_name = $request->full_name;
+//        $user->email = $request->email;
+//        $user->password = $request->password;
+//        $user->gender = $request->gender;
+//        $user->check_me = $request->check_me;
+//        $user->save();
+        // alternative way to update the data
+        DB::table('user_one')
+            ->where('id',$user_id)
+            ->update([
+                'full_name'=>$request->full_name,
+                'email'=>$request->email,
+                'password'=>$request->password,
+                'gender'=>$request->gender,
+                'check_me'=>$request->check_me,
+                'created_at'=>date('Y-m-d h:m:s'),
+                'updated_at'=>date('Y-m-d h:m:s'),
+        ]);
         // message
         Session::flash('success_done',"Successfully updated");
 
@@ -199,12 +230,34 @@ class UserOneController extends Controller
 
     public function deleteUser($id){
         // find the user to delete
-        $user = UserOne::find($id);
-        $user->delete(); // delete the user
+        //$user = UserOne::find($id);
+        //if ($user){
+            //$user->delete(); // delete the user
+        //}
+        // delete data by DB query builder
+//        DB::table('user_one')
+//            ->where('id',$id)
+//            ->delete();
+        // another DB query builder way to delete
+        DB::table('user_one')->delete($id);
         // message
         Session::flash('success_done',"Deleted Successfully");
 
         // return to where
         return redirect()->back();
+    }
+
+    public function allPost(){
+       $all_data = UserPost::all();
+       return view('post_list')
+           ->with('all_data',$all_data);
+    }
+
+    public function allOrders(){
+        $orders = Order::all();
+        $customer = Customer::all();
+        return view('order_list')
+            ->with('order_data',$orders)
+            ->with('customer_data',$customer);
     }
 }
